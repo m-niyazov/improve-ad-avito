@@ -5,7 +5,7 @@
 - Реализовать приложение в соответствии с данном [ТЗ](https://github.com/avito-tech/internship)
 
 ### Что использовал при реализации: 
-- MVVM паттерн, AutoLayout, UIKit, UICollectionView, чуточку Grand Central Dispatch
+- MVVM паттерн, AutoLayout через код, UIKit, UICollectionView, чуточку Grand Central Dispatch
 
 ### Что не использовал:
  - не использовал внешние зависимости

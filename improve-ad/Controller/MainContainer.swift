@@ -9,6 +9,7 @@
 import UIKit
 
 class MainContainer: UIViewController {
+    
     //MARK: - Properties
     var viewModel = MainContainerVM()
     
@@ -28,11 +29,7 @@ class MainContainer: UIViewController {
     }()
     
     lazy var chooseButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = #colorLiteral(red: 0, green: 0.6784313725, blue: 1, alpha: 1)
-        button.setTitle(self.viewModel.selectedActionTitle, for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 5
+        var button = chooseButtonSettings()
         return button
     }()
     
@@ -44,6 +41,7 @@ class MainContainer: UIViewController {
     lazy var collectionView: UIView =  {
         let collectionController = SuggestionsList(viewModel: self.viewModel.viewModelForSuggestionList())
         addChild(collectionController)
+        collectionController.delegate = self
         return collectionController.view
     }()
     
@@ -52,17 +50,17 @@ class MainContainer: UIViewController {
         configureView()
     }
     
+    
     func configureView() {
         view.backgroundColor = .white
-        //view
-        
+        // view
         view.addSubview(contentView)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: view.topAnchor),
-            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
             contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
             
         ])
         // closeIcon
@@ -85,14 +83,8 @@ class MainContainer: UIViewController {
         ])
         
         // choiseButton
-        contentView.addSubview(chooseButton)
-        chooseButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            chooseButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor , constant: -25),
-            chooseButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            chooseButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            chooseButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
+        configureChoiseButton()
+        
         
         // collectionView
         contentView.addSubview(collectionView)
@@ -102,9 +94,40 @@ class MainContainer: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: chooseButton.topAnchor, constant: -20),
             collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
-            
         ])
-        
     }
     
+    
+    
+    func configureChoiseButton() {
+        contentView.addSubview(chooseButton)
+        chooseButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            chooseButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor , constant: -25),
+            chooseButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            chooseButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            chooseButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
+    func chooseButtonSettings() -> UIButton {
+        let isActive = (viewModel.selectedSuggestion != nil) ? true : false
+        let title = viewModel.selectedActionTitle
+        let button = UIButton()
+        button.setTitleColor(isActive ? .white : .mainBlue, for: .normal)
+        button.setTitle(isActive ? title : "Продолжить без изменений", for: .normal)
+        button.backgroundColor = isActive ? .mainBlue : .disableBlue
+        button.layer.cornerRadius = 5
+        return button
+    }
 }
+
+
+extension MainContainer: SuggestionsListDelegate {
+    func selectedSuggestion(suggestion: SuggestionCellVM) {
+        viewModel.selectedSuggestion = suggestion
+        chooseButton = chooseButtonSettings()
+        configureChoiseButton()
+    }
+}
+

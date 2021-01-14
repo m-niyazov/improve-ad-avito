@@ -25,15 +25,13 @@ class SuggestionCellVM {
     
     func iconImage() -> UIImage {
         var image = UIImage()
-        let urlString = data.icon.first!.value
+        let urlString = self.data.icon.first!.value
         if let url = URL(string: urlString) {
-              print("DEBUG: \(data.icon) ")
             if let data = try? Data(contentsOf: url) {
                 image = UIImage(data: data)!
             }
         }
         return image
-        
     }
     
     init(_ suggestion: Suggestion) {

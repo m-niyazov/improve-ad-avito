@@ -10,8 +10,13 @@ import UIKit
 
 private let reuseIdentifier = "SuggestionCell"
 
+protocol SuggestionsListDelegate {
+    func selectedSuggestion(suggestion:SuggestionCellVM)
+}
+
 class SuggestionsList: UICollectionViewController {
     var viewModel: SuggestionListVM!
+    var delegate: SuggestionsListDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +45,15 @@ extension SuggestionsList {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! SuggestionCell
         cell.viewModel = viewModel.viewModelForCell(indexPath: indexPath)
+        
         return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let currentCell = collectionView.cellForItem(at: indexPath) as? SuggestionCell  else { return }
+        if currentCell.isSelected {
+            self.delegate?.selectedSuggestion(suggestion: currentCell.viewModel!)
+        }
     }
 }
 
@@ -48,8 +61,7 @@ extension SuggestionsList {
 extension SuggestionsList: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellWidth = CGFloat(collectionView.frame.size.width)
-        let cellHeight = CGFloat(200)
-        
+        let cellHeight = CGFloat(180)
         return CGSize(width: cellWidth, height: cellHeight)
     }
 }

@@ -10,6 +10,7 @@ import Foundation
 
 class MainContainerVM {
     private var data: PageData!
+    var selectedSuggestion: SuggestionCellVM?
     
     var title: String  {
         return data.title

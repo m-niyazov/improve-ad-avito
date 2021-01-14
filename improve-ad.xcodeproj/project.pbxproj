@@ -20,6 +20,7 @@
 		988E701625AEFF0300E14552 /* SuggestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988E701525AEFF0300E14552 /* SuggestionCell.swift */; };
 		988E701825AF2AFC00E14552 /* SuggestionCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988E701725AF2AFC00E14552 /* SuggestionCellVM.swift */; };
 		988E701A25AF2EF000E14552 /* SuggestionListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988E701925AF2EF000E14552 /* SuggestionListVM.swift */; };
+		988E701F25AFC58200E14552 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988E701E25AFC58200E14552 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		988E701525AEFF0300E14552 /* SuggestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionCell.swift; sourceTree = "<group>"; };
 		988E701725AF2AFC00E14552 /* SuggestionCellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionCellVM.swift; sourceTree = "<group>"; };
 		988E701925AF2EF000E14552 /* SuggestionListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionListVM.swift; sourceTree = "<group>"; };
+		988E701E25AFC58200E14552 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				988E6FEA25AE037D00E14552 /* AppDelegate.swift */,
 				988E6FEC25AE037D00E14552 /* SceneDelegate.swift */,
 				988E701325AE23DA00E14552 /* result.json */,
+				988E701E25AFC58200E14552 /* Extensions.swift */,
 			);
 			path = Supported;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 				988E701825AF2AFC00E14552 /* SuggestionCellVM.swift in Sources */,
 				988E700A25AE098F00E14552 /* Data.swift in Sources */,
 				988E700525AE046800E14552 /* MainContainer.swift in Sources */,
+				988E701F25AFC58200E14552 /* Extensions.swift in Sources */,
 				988E6FEB25AE037D00E14552 /* AppDelegate.swift in Sources */,
 				988E6FED25AE037D00E14552 /* SceneDelegate.swift in Sources */,
 				988E700725AE070700E14552 /* SuggestionsList.swift in Sources */,

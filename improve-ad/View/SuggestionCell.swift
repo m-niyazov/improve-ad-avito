@@ -8,13 +8,14 @@
 
 import UIKit
 
+
 class SuggestionCell: UICollectionViewCell {
     var viewModel: SuggestionCellVM? {
         didSet {
-            iconImage.image = viewModel!.iconImage()
             title.text = viewModel!.title
             subtitle.text = viewModel!.description
             price.text = viewModel!.price
+            setImageIcon()
         }
     }
     
@@ -26,41 +27,86 @@ class SuggestionCell: UICollectionViewCell {
     
     lazy var title: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 23)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.numberOfLines = 0
         return label
     }()
     
     lazy var subtitle: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 17)
+        label.font = UIFont.systemFont(ofSize: 16)
         label.numberOfLines = 0
         return label
     }()
     
     lazy var price: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 18)
         label.numberOfLines = 0
         return label
     }()
     
+    lazy var isSelectedIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isHidden = true
+        imageView.image =  UIImage(systemName: "checkmark.circle.fill");
+        return imageView
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        print("DEBUG: Init cell")
         configureCell()
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    override var isSelected: Bool {
+        didSet{
+            if self.isSelected {
+                self.isSelectedIcon.alpha = 0.0
+                self.isSelectedIcon.isHidden = false
+                UIView.animate(withDuration: 0.3){
+                    self.isSelectedIcon.alpha = 1.0
+                }
+            } else {
+                self.isSelectedIcon.alpha = 1.0
+                self.isSelectedIcon.isHidden = false
+                UIView.animate(withDuration: 0.3){
+                    self.isSelectedIcon.alpha = 0.0
+                }
+                
+            }
+        }
+    }
+    
+    override var isHighlighted: Bool {
+        didSet {
+            UIView.animate(withDuration: 0.4) {
+                self.backgroundColor = self.isHighlighted ? .grayLight : .cellBackground
+            }
+        }
+    }
+    
+    
+    func setImageIcon() {
+        if (iconImage.image == nil) {
+            DispatchQueue.main.async {
+                self.iconImage.image = self.viewModel?.iconImage()
+            }
+        }
+    }
+    
     func configureCell() {
-        backgroundColor = #colorLiteral(red: 0.9724746346, green: 0.9725909829, blue: 0.9724350572, alpha: 1)
+        backgroundColor = UIColor.cellBackground
         layer.cornerRadius = 10
         
         
-        //IconImage
+        //iconImage
         contentView.addSubview(iconImage)
         iconImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -76,16 +122,16 @@ class SuggestionCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             title.topAnchor.constraint(equalTo: iconImage.topAnchor),
             title.leadingAnchor.constraint(equalTo: iconImage.trailingAnchor, constant: 15),
-            title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40)
+            title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30)
         ])
-    
+        
         //subtitle
         contentView.addSubview(subtitle)
         subtitle.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             subtitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 10),
             subtitle.leadingAnchor.constraint(equalTo: title.leadingAnchor),
-            subtitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40)
+            subtitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30)
         ])
         
         
@@ -95,7 +141,19 @@ class SuggestionCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             price.topAnchor.constraint(equalTo: subtitle.bottomAnchor, constant: 10),
             price.leadingAnchor.constraint(equalTo: subtitle.leadingAnchor),
-            price.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40)
+            price.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30)
+        ])
+        
+        //isSelecteedIcon
+        contentView.addSubview(isSelectedIcon)
+        isSelectedIcon.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            isSelectedIcon.topAnchor.constraint(equalTo: title.topAnchor, constant: 15),
+            isSelectedIcon.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            isSelectedIcon.heightAnchor.constraint(equalToConstant: 25),
+            isSelectedIcon.widthAnchor.constraint(equalToConstant: 25),
         ])
     }
 }
+
+

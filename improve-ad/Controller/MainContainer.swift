@@ -51,6 +51,24 @@ class MainContainer: UIViewController {
     }
     
     
+    @objc func handleChoseBUtton(sender: UIButton) {
+        UIButton.animateHandleButton(sender: sender) {  
+            guard let suggestion = self.viewModel.selectedSuggestion else {
+                self.initAlertController(suggestion: nil)
+                return
+            }
+            self.initAlertController(suggestion: suggestion)
+        }
+        
+    }
+    
+    func initAlertController(suggestion: SuggestionCellVM?) {
+        let alert = AlertController(title: "", message: "", preferredStyle: .alert)
+        alert.viewModel = suggestion
+        present(alert, animated: true)
+    }
+    
+    
     func configureView() {
         view.backgroundColor = .white
         // view
@@ -115,9 +133,10 @@ class MainContainer: UIViewController {
         let title = viewModel.selectedActionTitle
         let button = UIButton()
         button.setTitleColor(isActive ? .white : .mainBlue, for: .normal)
-        button.setTitle(isActive ? title : "Продолжить без изменений", for: .normal)
+        button.setTitle(title, for: .normal)
         button.backgroundColor = isActive ? .mainBlue : .disableBlue
         button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(handleChoseBUtton(sender:)), for: .touchUpInside)
         return button
     }
 }
@@ -130,4 +149,5 @@ extension MainContainer: SuggestionsListDelegate {
         configureChoiseButton()
     }
 }
+
 

@@ -19,7 +19,6 @@ extension UIColor {
 
 
 //MARK: - UIButton
-
 extension UIButton {
     static func animateHandleButton(sender: UIButton, complition: @escaping () -> ()) {
         UIView.animate(withDuration: 0.1,

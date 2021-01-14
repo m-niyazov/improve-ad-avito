@@ -9,7 +9,6 @@
 import UIKit
 
 class MainContainer: UIViewController {
-    
     //MARK: - Properties
     var viewModel = MainContainerVM()
     
@@ -39,18 +38,20 @@ class MainContainer: UIViewController {
     }()
     
     lazy var collectionView: UIView =  {
-        let collectionController = SuggestionsList(viewModel: self.viewModel.viewModelForSuggestionList())
+        let suggestionViewModel = self.viewModel.viewModelForSuggestionList()
+        let collectionController = SuggestionsList(viewModel: suggestionViewModel )
         addChild(collectionController)
         collectionController.delegate = self
         return collectionController.view
     }()
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
     }
     
-    
+    //MARK: - Selectors
     @objc func handleChoseBUtton(sender: UIButton) {
         UIButton.animateHandleButton(sender: sender) {  
             guard let suggestion = self.viewModel.selectedSuggestion else {
@@ -62,13 +63,7 @@ class MainContainer: UIViewController {
         
     }
     
-    func initAlertController(suggestion: SuggestionCellVM?) {
-        let alert = AlertController(title: "", message: "", preferredStyle: .alert)
-        alert.viewModel = suggestion
-        present(alert, animated: true)
-    }
-    
-    
+    //MARK: - Constraints
     func configureView() {
         view.backgroundColor = .white
         // view
@@ -81,6 +76,7 @@ class MainContainer: UIViewController {
             contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
             
         ])
+        
         // closeIcon
         contentView.addSubview(closeIcon)
         closeIcon.translatesAutoresizingMaskIntoConstraints = false
@@ -103,7 +99,6 @@ class MainContainer: UIViewController {
         // choiseButton
         configureChoiseButton()
         
-        
         // collectionView
         contentView.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -115,8 +110,6 @@ class MainContainer: UIViewController {
         ])
     }
     
-    
-    
     func configureChoiseButton() {
         contentView.addSubview(chooseButton)
         chooseButton.translatesAutoresizingMaskIntoConstraints = false
@@ -126,6 +119,13 @@ class MainContainer: UIViewController {
             chooseButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             chooseButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+    }
+    
+    //MARK: - Helpers
+    func initAlertController(suggestion: SuggestionCellVM?) {
+        let alert = AlertController(title: "", message: "", preferredStyle: .alert)
+        alert.viewModel = suggestion
+        present(alert, animated: true)
     }
     
     func chooseButtonSettings() -> UIButton {
@@ -141,7 +141,7 @@ class MainContainer: UIViewController {
     }
 }
 
-
+ 
 extension MainContainer: SuggestionsListDelegate {
     func selectedSuggestion(suggestion: SuggestionCellVM) {
         viewModel.selectedSuggestion = suggestion
@@ -149,5 +149,3 @@ extension MainContainer: SuggestionsListDelegate {
         configureChoiseButton()
     }
 }
-
-

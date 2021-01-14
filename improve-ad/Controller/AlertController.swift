@@ -9,11 +9,14 @@
 import UIKit
 
 class AlertController: UIAlertController {
+    // MARK: - Properties
     var viewModel: SuggestionCellVM? {
         didSet {
             configureUI()
         }
     }
+    
+    // MARK: - Helpers
     func configureUI() {
         addAction(UIAlertAction(title: "Закрыть", style: .cancel, handler: nil))
         guard let viewModel = viewModel else {
@@ -22,7 +25,5 @@ class AlertController: UIAlertController {
         }
         title = "\(viewModel.title)"
         message = "\(viewModel.description)"
-       
-        
     }
 }

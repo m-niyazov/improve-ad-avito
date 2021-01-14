@@ -14,7 +14,6 @@ class PageData  {
     let selectedActionTitle: String
     var list: [Suggestion]
     
-    
     init(dictionary: [String: Any]) {
         self.title = dictionary["title"] as? String ?? "-"
         self.actionTitle = dictionary["actionTitle"] as? String ?? "-"
@@ -36,6 +35,7 @@ struct Suggestion {
     var description: String
     var icon: [String: String]
     var price: String
+    
     init(dictionary: [String: Any]) {
         self.id = dictionary["id"] as? String ?? "-"
         self.title = dictionary["title"] as? String ?? "-"

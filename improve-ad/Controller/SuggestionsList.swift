@@ -8,22 +8,25 @@
 
 import UIKit
 
-private let reuseIdentifier = "SuggestionCell"
+private let reuseIdentifier = "suggestionCell"
 
 protocol SuggestionsListDelegate {
     func selectedSuggestion(suggestion:SuggestionCellVM)
 }
 
 class SuggestionsList: UICollectionViewController {
+    // MARK: - Properties
     var viewModel: SuggestionListVM!
     var delegate: SuggestionsListDelegate?
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.backgroundColor = .white
         self.collectionView!.register(SuggestionCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.backgroundColor = .white
     }
     
+    // MARK: - Initialize
     init(viewModel: SuggestionListVM) {
         self.viewModel = viewModel
         let layout = UICollectionViewFlowLayout()
@@ -35,6 +38,7 @@ class SuggestionsList: UICollectionViewController {
     }
     
 }
+
 // MARK: UICollectionViewDataSource
 extension SuggestionsList {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -52,9 +56,11 @@ extension SuggestionsList {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let currentCell = collectionView.cellForItem(at: indexPath) as? SuggestionCell  else { return }
         if currentCell.isSelected {
+            print(currentCell.isSelected)
             self.delegate?.selectedSuggestion(suggestion: currentCell.viewModel!)
         }
     }
+    
 }
 
 // MARK: UICollectionViewDelegateFlowLayout
